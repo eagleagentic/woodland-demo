@@ -1,0 +1,13 @@
+Wanderworld uses selected Kenney asset packs distributed under Creative Commons Zero (CC0 1.0).
+
+Source packs used:
+- Blocky Characters
+- Cube Pets
+- City Kit Suburban
+- Car Kit
+- Fantasy Town Kit
+- Platformer Kit
+- Graveyard Kit
+
+Credit: Kenney / www.kenney.nl
+The complete source-pack license texts are preserved in ./licenses/.

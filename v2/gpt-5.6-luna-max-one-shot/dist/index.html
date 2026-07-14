@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+    <meta name="theme-color" content="#dcebd0" />
+    <meta name="description" content="在四個低多邊形區域自由散步、聊天，收集旅途中遇見的小發現。" />
+    <title>漫遊異世界 Wanderworld</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./assets/styles.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./assets/vendor/three.module.min.js",
+          "three/addons/": "./assets/vendor/examples/jsm/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <main id="app" aria-label="漫遊異世界遊戲">
+      <canvas id="world" tabindex="0" aria-label="低多邊形 3D 漫遊世界"></canvas>
+
+      <section id="loading" class="screen screen--loading" aria-live="polite">
+        <div class="loading-orbit" aria-hidden="true"><span>✦</span></div>
+        <p class="eyebrow">WANDERWORLD / FIELD NOTE 01</p>
+        <h1>漫遊異世界</h1>
+        <p class="loading-subtitle">正在替旅人攤開一張沒有邊界的地圖</p>
+        <div class="progress-track" aria-hidden="true"><i id="progress-bar"></i></div>
+        <p id="progress-text" class="progress-text">準備第一個轉彎⋯ 0%</p>
+      </section>
+
+      <section id="welcome" class="screen screen--welcome hidden" role="dialog" aria-modal="true" aria-labelledby="welcome-title">
+        <div class="paper welcome-card">
+          <div class="welcome-card__topline"><span>THE OPEN ROAD</span><span>記號 / 04</span></div>
+          <div class="welcome-card__body">
+            <div>
+              <p class="eyebrow">一本沒有截止日期的旅行手札</p>
+              <h1 id="welcome-title">往哪裡走，<br /><em>都算抵達。</em></h1>
+              <p class="welcome-copy">從晨光郊區出發，穿過市集、林間高地和暮色墓園。沒有任務清單，也沒有倒數計時，只有下一個值得看的小地方。</p>
+            </div>
+            <div class="gesture-grid" aria-label="操作提示">
+              <div><span aria-hidden="true">☝</span><strong>點一下</strong><small>走向地面／互動</small></div>
+              <div><span aria-hidden="true">↔</span><strong>拖曳</strong><small>旋轉鏡頭</small></div>
+              <div><span aria-hidden="true">⌁</span><strong>滾輪／雙指</strong><small>調整遠近</small></div>
+            </div>
+          </div>
+          <div class="welcome-card__footer">
+            <p><span class="legend-dot legend-dot--gold"></span>靠近人物、動物或亮起的物件，就會收到一段故事。</p>
+            <button id="start" class="primary-button" type="button">開始散步 <span aria-hidden="true">↗</span></button>
+          </div>
+        </div>
+      </section>
+
+      <header id="hud" class="hud hidden">
+        <div class="hud__left">
+          <div id="place-card" class="place-card suburb">
+            <span class="place-card__mark" aria-hidden="true">✦</span>
+            <div><small>目前所在</small><strong id="place-name">晨光郊區</strong></div>
+          </div>
+          <div class="world-title"><span>漫遊異世界</span><small>WANDERWORLD</small></div>
+        </div>
+        <nav class="hud__actions" aria-label="遊戲選單">
+          <button id="journal-btn" class="hud-button hud-button--journal" type="button" aria-label="開啟旅人手札"><span aria-hidden="true">☷</span><b>手札</b></button>
+          <button id="sound-btn" class="hud-button" type="button" aria-label="開啟音效" aria-pressed="false"><span aria-hidden="true">♬</span></button>
+          <button id="reset-btn" class="hud-button" type="button" aria-label="重新開始旅程"><span aria-hidden="true">↻</span></button>
+        </nav>
+      </header>
+
+      <div id="region-caption" class="region-caption hidden"><span id="region-caption-kicker">MORNING SUBURB</span><strong id="region-caption-title">晨光郊區</strong></div>
+      <div id="hint" class="hint">點一下地面，旅人會自己走過去</div>
+      <div id="toast" class="toast" role="status" aria-live="polite"></div>
+      <div id="context" class="context hidden" aria-hidden="true"><span>✦</span><b id="context-name"></b><small>點一下走近</small></div>
+
+      <section id="card" class="paper interaction-card hidden" role="dialog" aria-modal="true" aria-labelledby="card-name">
+        <button class="close-button" data-close type="button" aria-label="關閉卡片">×</button>
+        <div class="interaction-card__visual" id="card-visual" aria-hidden="true">✦</div>
+        <div class="interaction-card__content">
+          <p id="card-role" class="eyebrow">沿途一瞥</p>
+          <h2 id="card-name">一個小發現</h2>
+          <p id="card-text"></p>
+          <div id="choices" class="choices"></div>
+        </div>
+      </section>
+
+      <aside id="journal" class="paper journal hidden" role="dialog" aria-modal="true" aria-labelledby="journal-title">
+        <button class="close-button" data-close type="button" aria-label="關閉旅人手札">×</button>
+        <div class="journal__header"><p class="eyebrow">沿途拾得的片段</p><span>NOTE / 04</span></div>
+        <h2 id="journal-title">旅人手札</h2>
+        <p class="journal-intro">世界不會催你填滿這本手札。</p>
+        <div id="journal-summary" class="summary"></div>
+        <div id="journal-tabs" class="tabs" role="tablist" aria-label="手札分類"></div>
+        <div id="journal-list" class="journal-list"></div>
+      </aside>
+
+      <div id="error" class="error hidden" role="alert">
+        <div class="paper error-card">
+          <p class="eyebrow">THE TRAIL IS QUIET</p>
+          <h2>地圖暫時沒有回應</h2>
+          <p>請確認瀏覽器支援 WebGL，並用 HTTP server 開啟這個資料夾。個別模型缺席不會影響旅程。</p>
+          <button id="error-retry" class="primary-button" type="button">重新整理</button>
+        </div>
+      </div>
+    </main>
+
+    <script type="module" src="./assets/app.js"></script>
+  </body>
+</html>
