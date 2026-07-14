@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#122C28" />
+    <meta name="description" content="林間漫遊：在 Cube Pets 森林裡散步、發現動物，和路人聊聊天。" />
+    <title>林間漫遊｜Woodland Wander</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./assets/styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section id="start-screen" class="start-screen" aria-labelledby="game-title">
+        <div class="start-screen__grain" aria-hidden="true"></div>
+        <div class="start-layout">
+          <div class="intro-column">
+            <p class="eyebrow"><span class="eyebrow__dot"></span>FIELD NOTE 07 · MORNING WALK</p>
+            <h1 id="game-title">林間<br /><em>漫遊</em></h1>
+            <p class="intro-copy">今天沒有目的地。沿著小路走走，看看誰在樹影裡醒著，也許會遇見一個願意分享故事的人。</p>
+
+            <div class="intro-rule" aria-hidden="true"><span></span><span></span><span></span></div>
+
+            <div class="field-note field-note--small">
+              <span class="field-note__pin" aria-hidden="true"></span>
+              <p><strong>今日手札</strong><br />一段沒有安排的散步，最容易撿到好故事。</p>
+            </div>
+          </div>
+
+          <div class="selection-card" aria-label="選擇散步夥伴">
+            <div class="selection-card__topline">
+              <span>CHOOSE YOUR COMPANION</span>
+              <span class="selection-card__mark">林 / 07</span>
+            </div>
+            <h2>選一位一起走走</h2>
+            <p class="selection-card__hint">每一位夥伴，都會用自己的步伐看森林。</p>
+            <div id="avatar-picker" class="avatar-picker" role="list"></div>
+            <button id="start-button" class="primary-button" type="button">
+              <span>踏進森林</span><span class="primary-button__arrow" aria-hidden="true">↗</span>
+            </button>
+            <p class="selection-card__credit">Cube Pets by Kenney · CC0</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="game-screen" class="game-screen" hidden aria-label="森林探索遊戲">
+        <canvas id="world-canvas" tabindex="0" aria-label="低多邊形森林 3D 遊戲畫面"></canvas>
+
+        <div class="game-ui">
+          <aside class="journal-panel" aria-label="漫遊手札">
+            <div class="journal-panel__header">
+              <span class="journal-panel__label">漫遊手札</span>
+              <span class="journal-panel__code">林 / 07</span>
+            </div>
+            <div class="journal-panel__rule"></div>
+            <div class="journal-count"><strong id="discovery-count">0</strong><span>/ 6 已發現</span></div>
+            <div id="journal-stamps" class="journal-stamps" aria-live="polite"></div>
+            <p class="journal-panel__hint">點擊有亮點的動物，或走近後按 <kbd>E</kbd> 看看。</p>
+          </aside>
+
+          <div class="control-panel" aria-label="操作說明">
+            <span class="control-panel__sun" aria-hidden="true">☼</span>
+            <div><strong>自在走走</strong><small>點地面行走 · 拖曳環視 · 滾輪縮放</small></div>
+          </div>
+
+          <div id="interaction-prompt" class="interaction-prompt" hidden>
+            <span class="interaction-prompt__key">E</span>
+            <span id="interaction-label">看看</span>
+          </div>
+
+          <div id="discovery-panel" class="overlay-card discovery-card" hidden role="dialog" aria-modal="true" aria-labelledby="discovery-title">
+            <button id="discovery-close" class="icon-button overlay-card__close" type="button" aria-label="關閉觀察手札">×</button>
+            <p class="eyebrow eyebrow--dark">OBSERVATION / <span id="discovery-number">01</span></p>
+            <div class="discovery-card__body">
+              <div id="discovery-visual" class="discovery-card__visual" aria-hidden="true"></div>
+              <div>
+                <p class="discovery-card__species" id="discovery-species">WILDLIFE</p>
+                <h2 id="discovery-title">一位森林朋友</h2>
+                <p id="discovery-copy"></p>
+              </div>
+            </div>
+            <div class="discovery-card__stamp">已蓋章 · 今日森林觀察</div>
+          </div>
+
+          <div id="dialogue-panel" class="overlay-card dialogue-card" hidden role="dialog" aria-modal="true" aria-labelledby="dialogue-speaker">
+            <button id="dialogue-close" class="icon-button overlay-card__close" type="button" aria-label="收起對話">×</button>
+            <p class="eyebrow eyebrow--dark">A SMALL CONVERSATION</p>
+            <div class="dialogue-card__header">
+              <div id="dialogue-avatar" class="dialogue-card__avatar" aria-hidden="true"></div>
+              <div><p class="dialogue-card__role" id="dialogue-role">森林路人</p><h2 id="dialogue-speaker">有人在樹下</h2></div>
+            </div>
+            <p id="dialogue-text" class="dialogue-card__text"></p>
+            <div id="dialogue-actions" class="dialogue-card__actions"></div>
+          </div>
+
+          <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+        </div>
+
+        <div id="loading-overlay" class="loading-overlay" hidden>
+          <div class="loading-note">
+            <div class="loading-note__leaf" aria-hidden="true">✦</div>
+            <p class="eyebrow eyebrow--dark">PACKING THE DAY</p>
+            <h2 id="loading-title">正在整理森林</h2>
+            <p id="loading-status">準備一點陽光和樹影。</p>
+            <div class="loading-bar"><span id="loading-bar-fill"></span></div>
+          </div>
+        </div>
+
+        <div id="error-overlay" class="loading-overlay" hidden>
+          <div class="loading-note loading-note--error">
+            <div class="loading-note__leaf" aria-hidden="true">!</div>
+            <p class="eyebrow eyebrow--dark">THE TRAIL IS QUIET</p>
+            <h2>森林還沒準備好</h2>
+            <p id="error-message">有一份素材沒有成功抵達，請重新試一次。</p>
+            <button id="retry-button" class="secondary-button" type="button">回到選擇</button>
+          </div>
+        </div>
+
+        <div class="desktop-only-note" role="note">這段散步以桌面滑鼠操作為主，請使用桌面瀏覽器體驗完整森林。</div>
+      </section>
+    </main>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./assets/vendor/three.module.min.js",
+          "three/addons/": "./assets/vendor/examples/jsm/"
+        }
+      }
+    </script>
+    <script type="module" src="./assets/app.js"></script>
+  </body>
+</html>
