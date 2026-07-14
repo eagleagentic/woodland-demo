@@ -13,8 +13,8 @@ Task: Implement 《漫遊異世界 Wanderworld》 as a deployment-ready static 3
 | Output tokens | 85,265 |
 | Reasoning output tokens | 33,655 |
 | Total tokens | 7,197,200 |
-| Estimated standard API cost | US$8.13 |
-| Estimated upper bound with cache writes | US$8.69 |
+| Estimated standard API cost | US$1.63 |
+| Estimated upper bound with cache writes | US$1.74 |
 
 Source: local Codex session log. Token values are the actual cumulative usage
 reported at the final response of the implementation task, before the later
@@ -22,19 +22,20 @@ requests to add this statistics file.
 
 ## Cost calculation
 
-GPT-5.6 Luna Max standard API rates at the time of the task were US$5.00 per
-million uncached input tokens, US$0.50 per million cached input tokens, and
-US$30.00 per million output tokens.
+GPT-5.6 Luna standard API rates at the time of the task were US$1.00 per
+million uncached input tokens, US$0.10 per million cached input tokens, and
+US$6.00 per million output tokens. The `max` reasoning setting does not change
+the per-token rate.
 
 ```text
-(447,999 × $5 / 1M) + (6,663,936 × $0.50 / 1M) +
-(85,265 × $30 / 1M) = $8.129913 ≈ $8.13
+(447,999 × $1 / 1M) + (6,663,936 × $0.10 / 1M) +
+(85,265 × $6 / 1M) = $1.6259826 ≈ $1.63
 ```
 
 Reasoning tokens are included in output tokens and are not charged twice.
 The session log does not separate ordinary uncached input from cache writes,
 which are priced at 1.25×. If every uncached input token were a cache write,
-the upper-bound estimate would be US$8.69. Actual Codex subscription billing
+the upper-bound estimate would be US$1.74. Actual Codex subscription billing
 may differ from API-equivalent token pricing.
 
 Pricing source: <https://openai.com/index/gpt-5-6/>
