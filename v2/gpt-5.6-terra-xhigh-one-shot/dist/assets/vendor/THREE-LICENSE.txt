@@ -1,0 +1,5 @@
+Three.js
+https://threejs.org/
+
+The Three.js runtime and examples modules are distributed under the MIT License.
+Copyright (c) 2010-2026 three.js authors.
