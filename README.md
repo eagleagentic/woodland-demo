@@ -35,9 +35,9 @@
 
 | 版本 | 成品 | 操作及部署說明 | 完整統計 |
 |---|---|---|---|
-| GPT-5.6 Sol Low | [`dist/`](v2/gpt-5.6-sol-low-one-shot/dist/) | [README](v2/gpt-5.6-sol-low-one-shot/README.md) | [stats](v2/gpt-5.6-sol-low-one-shot/stats.md) |
-| GPT-5.6 Luna Max | [`dist/`](v2/gpt-5.6-luna-max-one-shot/dist/) | [README](v2/gpt-5.6-luna-max-one-shot/README.md) | [stats](v2/gpt-5.6-luna-max-one-shot/stats.md) |
-| GPT-5.6 Terra XHigh | [`dist/`](v2/gpt-5.6-terra-xhigh-one-shot/dist/) | [README](v2/gpt-5.6-terra-xhigh-one-shot/README.md) | [stats](v2/gpt-5.6-terra-xhigh-one-shot/stats.md) |
+| GPT-5.6 Sol Low | [線上 Demo](https://demo-sol-woodland.pages.dev/) | [README](v2/gpt-5.6-sol-low-one-shot/README.md) | [stats](v2/gpt-5.6-sol-low-one-shot/stats.md) |
+| GPT-5.6 Luna Max | [線上 Demo](https://demo-luna-woodland.pages.dev/) | [README](v2/gpt-5.6-luna-max-one-shot/README.md) | [stats](v2/gpt-5.6-luna-max-one-shot/stats.md) |
+| GPT-5.6 Terra XHigh | [線上 Demo](https://demo-terra-woodland.pages.dev/) | [README](v2/gpt-5.6-terra-xhigh-one-shot/README.md) | [stats](v2/gpt-5.6-terra-xhigh-one-shot/stats.md) |
 
 本機預覽任一版本，不需 `npm install`：
 
