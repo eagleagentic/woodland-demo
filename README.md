@@ -379,4 +379,4 @@ based on all the 素材 from assets, create a prompt to create a game.
 └── v2/       # 三個 Wanderworld one-shot 成品
 ```
 
-各版本的授權資訊保留在相應的 `dist/assets/licenses/`；3D 素材來自 [Kenney](https://kenney.nl/)，並依素材包所附 CC0 1.0 條款使用。
+各版本的授權資訊保留在相應的 `dist/assets/licenses/`；3D 素材來自 [Kenney Assets](https://kenney.nl/assets)，並依素材包所附 CC0 1.0 條款使用。
