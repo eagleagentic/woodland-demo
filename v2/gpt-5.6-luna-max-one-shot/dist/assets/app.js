@@ -512,7 +512,7 @@ function discover(collection, id, announce = true) {
   if (!state.progress[collection] || state.progress[collection].includes(id)) return false;
   state.progress[collection].push(id);
   saveProgress();
-  renderJournal();
+  updateJournal();
   if (announce) {
     const source = collection === "regions" ? getRegion(id) : collection === "animals" ? getAnimal(id) : collection === "npcs" ? getNpc(id) : getLandmark(id);
     const prefix = collection === "regions" ? "新地點" : collection === "animals" ? "新發現" : collection === "npcs" ? "新朋友" : "新地標";
@@ -1299,7 +1299,7 @@ function resetJourney() {
   state.currentRegion = null;
   state.firstStart = true;
   saveProgress();
-  renderJournal();
+  updateJournal();
   closeCard(false);
   closeJournal();
   moveTarget = null;
@@ -1446,7 +1446,7 @@ async function boot() {
     createActors();
     createDestinationMarker();
     createLights();
-    renderJournal();
+    updateJournal();
     updateCamera(.016, true);
     dom.loading.classList.add("hidden");
     setMode("welcome");
@@ -1457,6 +1457,6 @@ async function boot() {
   }
 }
 
-renderJournal();
+updateJournal();
 bindUI();
 boot();
